@@ -1,0 +1,60 @@
+<% layout("./layouts/boilerplate") %>
+    <div class="row">
+        <div class="offset-md-3 col-md-6">
+            <div class="card shadow mb-5 mt-2">
+                <div class="card-body">
+                    <h1 class="card-title text-center mb-2 py-3 fw-light"
+                        style="border-bottom: solid 0.15rem rgba(0, 0, 0, 0.1);">新規登録</h1>
+                    <form action="/campgrounds" method="POST" novalidate class="needs-validation"
+                        enctype="multipart/form-data">
+                        <div class="mb-3 mt-3">
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <label for="title" class="form-label">名称</label>
+                                    <input type="text" class="form-control" id="title" name="title" required>
+                                    <div class="valid-feedback">
+                                        OK!
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <label for="location" class="form-label">場所</label>
+                                    <input type="text" class="form-control" id="location" name="location" required>
+                                    <div class="valid-feedback">
+                                        OK!
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="mb-3">
+                            <label for="price" class="form-label">価格</label>
+                            <div class="input-group">
+                                <span class="input-group-text">￥</span>
+                                <input type="text" class="form-control" name="price" id="price" required>
+                                <div class="valid-feedback">
+                                    OK!
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="description" class="form-label">説明</label>
+                            <textarea class="form-control" id="description" rows="3" name="description"
+                                required></textarea>
+                            <div class="valid-feedback">
+                                OK!
+                            </div>
+                        </div>
+                        <div class="mb-3">
+                            <label for="formFileMultiple" class="form-label">画像をアップロード</label>
+                            <input class="form-control" type="file" id="formFileMultiple" name="Image" multiple>
+                        </div>
+                        <div class="d-grid pt-3">
+                            <button class="btn btn-success d-block">登録</button>
+                        </div>
+
+                    </form>
+                </div>
+            </div>
+
+        </div>
+    </div>
