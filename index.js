@@ -121,29 +121,30 @@ passport.use(new LocalStrategy(User.authenticate()))
 passport.serializeUser(User.serializeUser())
 passport.deserializeUser(User.deserializeUser())
 //ユーザーの情報を、どうやってセッションに入力したり、取り出したりするか
+
+//flashを定義するミドルウェア
 app.use((req,res,next)=>{
     res.locals.success = req.flash("success")
     res.locals.error = req.flash("error")
+    return next()
+})
+
+//現在のUser情報をres.localsに保存するミドルウェア
+app.use((req,res,next)=>{
     res.locals.currentUser = req.user;
     return next()
 })
 
 //ルーティング
-
 app.get("/", (req, res)=>{
     res.render("home");
 })
-
-
-
 app.use("/", usersRoute)
 app.use("/campgrounds", campgroundRoute)
 app.use("/campgrounds/:id/reviews", reviewRoute)
 
 
-
-
-
+//エラールーティング
 app.use((req, res, next)=>{
     const err = new AppError("ページが見つかりません", 404)
     next(err);
@@ -151,13 +152,12 @@ app.use((req, res, next)=>{
 
 app.use((err, req, res, next)=>{
     const {status = 500, message = "不明なエラーが発生しました"} = err
-    // res.status(status).send(message);
-    // console.log(err.stack)
+    console.log(err.stack)
     res.status(status).render("error", {message})
 })
 
-
-
-app.listen(3000, ()=>{
+const localPort = 3000
+const port = localPort
+app.listen(port, ()=>{
     console.log("ポート3000で待機中！")
 })
