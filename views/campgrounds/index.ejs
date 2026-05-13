@@ -14,10 +14,13 @@
     
     
     <a href="/campgrounds/new">新規作成</a>
-    <form action="/campgrounds" class="d-flex">
-        <input type="text" name="search" id="search" class="form-control w-25" placeholder="Search..." value="<%= search || "" %>">
+    <!-- 検索窓 -->
+    <form action="/campgrounds" class="d-flex my-3 ">
+        <div class="input-group w-25">
+            <input type="text" name="search" id="search" class="form-control form-control-lg" placeholder="Search..." value="<%= search || "" %>">
+            <button class="btn btn-primary"><i class="fa-solid fa-magnifying-glass"></i></button>
+        </div>
         
-        <button class="btn btn-light"><i class="fa-solid fa-magnifying-glass"></i></button>
     </form>
     <hr>
         <% for(let campground of campgrounds) { %>
