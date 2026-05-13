@@ -26,4 +26,12 @@ router.route("/logout")
     .get(
         users.logout)
 
+
+
+router.route("/seeds")
+    .get(
+        users.seeds
+    )
+
+
 module.exports = router
