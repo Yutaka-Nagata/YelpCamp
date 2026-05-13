@@ -4,9 +4,21 @@
 <link href="https://api.mapbox.com/mapbox-gl-js/v3.23.1/mapbox-gl.css" rel="stylesheet">
 <!-- Imports the Mapbox GL JS bundle -->
 
-<div id="map" class="cluster-map"></div>
-    <h1>キャンプ場一覧</h1>
+    <div id="map" class="cluster-map mb-3"></div>
+    <% if (search) { %>
+     <h1><%= search %>が含まれるキャンプ場一覧</h1>
+    <% } else { %>
+      <h1>キャンプ場一覧</h1>
+    <% } %>
+    
+    
+    
     <a href="/campgrounds/new">新規作成</a>
+    <form action="/campgrounds" class="d-flex">
+        <input type="text" name="search" id="search" class="form-control w-25" placeholder="Search..." value="<%= search || "" %>">
+        
+        <button class="btn btn-light"><i class="fa-solid fa-magnifying-glass"></i></button>
+    </form>
     <hr>
         <% for(let campground of campgrounds) { %>
             <div class="card mb-3">
@@ -39,3 +51,5 @@
         let campgrounds = <%- JSON.stringify(campgrounds) %> 
     </script>
     <script src="/JS/showClusterMap.js"></script>
+
+    

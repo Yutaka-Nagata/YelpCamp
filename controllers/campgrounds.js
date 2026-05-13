@@ -7,19 +7,15 @@ const AppError = require("../Utils/AppError")
 const {cloudinary} = require("../cloudinary/index")
 
 module.exports.renderIndex = async (req, res)=>{
-    const campgrounds = await Campground.find({});
-    res.render("campgrounds/index", {campgrounds})
-}
-
-module.exports.test = async (req,res,next)=>{
-    const GeoCode = await geoCodingService.forwardGeocode({
-    query: "広島県広島市",
-    limit: 1
-    })
-    .send()
-
-    res.send(GeoCode.body.features[0].geometry.coordinates)
-
+    const search = req.query.search
+    let campgrounds
+    if(search){
+        campgrounds = await Campground.find({title: {$regex: search, $options: "i"}});
+    }
+    else{
+        campgrounds = await Campground.find({});
+    }
+    res.render("campgrounds/index", {campgrounds, search}) 
 }
 
 module.exports.createCampground = async (req, res, next)=>{
@@ -43,7 +39,6 @@ module.exports.createCampground = async (req, res, next)=>{
 module.exports.renderNewForm = (req, res)=>{
     res.render("campgrounds/new")
 }
-
 
 module.exports.renderEditForm = async (req, res)=>{
     const {id} = req.params;

@@ -29,6 +29,7 @@ router.route("/new")
         check_isLoggedIn, 
         campgrounds.renderNewForm)
 
+
 router.route("/:id")
     .get(
         wrapAsync(campgrounds.renderDetail))

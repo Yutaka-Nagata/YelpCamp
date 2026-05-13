@@ -86,7 +86,9 @@ app.use(helmet())
 
 const scriptSrcUrls = [
     'https://api.mapbox.com',
-    'https://cdn.jsdelivr.net'
+    'https://cdn.jsdelivr.net',
+    'https://kit.fontawesome.com',
+    'https://ka-f.fontawesome.com'
 ];
 const styleSrcUrls = [
     'https://api.mapbox.com',
@@ -95,7 +97,9 @@ const styleSrcUrls = [
 const connectSrcUrls = [
     'https://api.mapbox.com',
     'https://*.tiles.mapbox.com',
-    'https://events.mapbox.com'
+    'https://events.mapbox.com',
+    'https://ka-f.fontawesome.com'
+    
 ];
 const fontSrcUrls = [];
 const imgSrcUrls = [
@@ -156,12 +160,13 @@ app.use("/campgrounds/:id/reviews", reviewRoute)
 //エラールーティング
 app.use((req, res, next)=>{
     const err = new AppError("ページが見つかりません", 404)
+    console.log("404:", req.originalUrl);
     next(err);
 })
 
 app.use((err, req, res, next)=>{
     const {status = 500, message = "不明なエラーが発生しました"} = err
-    console.log(err.stack)
+    // console.log(err.stack)
     res.status(status).render("error", {message})
 })
 
