@@ -28,7 +28,7 @@ const usersRoute = require("./routes/users")
 const MongoURL = process.env.DB_URL
 const localURL = 'mongodb://localhost:27017/yelpCamp'
 
-const URL = localURL
+const URL = MongoURL || localURL
 //DBサーバのの立ち上げ
 mongoose.connect(URL, {
     useNewUrlParser: true, 
@@ -52,12 +52,14 @@ app.use(express.urlencoded({extended : true}))//フォームから来たデー�
 app.use(express.json())
 app.use(express.static(path.join(__dirname, "public")))
 
+
+
 //セッション管理
+
+const secret = process.env.SECRET || "mySecret"
 const store = MongoStore.create({
     mongoUrl: URL,
-    crypto: {
-        secret: "mySecret"
-    },
+    crypto: secret,
     touchAfter: 24 * 3600//一定数秒sessionが変わってない場合、MongoDBにアクセスしない
 })
 store.on("error", e=>{
@@ -66,7 +68,7 @@ store.on("error", e=>{
 const sessionConfig = {
     store,
     name: "session",
-    secret: "mySecret",
+    secret,
     resave: false,
     saveUninitialized: true,
     cookie: {
@@ -156,8 +158,9 @@ app.use((err, req, res, next)=>{
     res.status(status).render("error", {message})
 })
 
-const localPort = 3000
-const port = localPort
-app.listen(port, ()=>{
-    console.log("ポート3000で待機中！")
+
+const port = process.env.PORT || 3000
+
+app.listen(port, (req,res)=>{
+    console.log(`ポート${port}で待機中...`)
 })
