@@ -1,6 +1,7 @@
 if (process.env.NODE_ENV !== "production"){
-    require("dotenv").config()
+    
 }
+require("dotenv").config()
 
 const express = require("express")
 const mongoose = require("mongoose")
@@ -59,7 +60,9 @@ app.use(express.static(path.join(__dirname, "public")))
 const secret = process.env.SECRET || "mySecret"
 const store = MongoStore.create({
     mongoUrl: URL,
-    crypto: secret,
+    crypto: {
+        secret
+    },
     touchAfter: 24 * 3600//一定数秒sessionが変わってない場合、MongoDBにアクセスしない
 })
 store.on("error", e=>{
