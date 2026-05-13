@@ -20,7 +20,7 @@ const cities = require("./cities");
 const { descriptors, places } = require("./seedHelpers");
 
 //データベースを初期化する
-module.exports.seedDB = async () =>{
+module.exports.seedDB = async (user) =>{
     await Campground.deleteMany({})
 
     for(let i = 0; i < 50; i++){
@@ -35,7 +35,7 @@ module.exports.seedDB = async () =>{
                 type: "Point",
                 coordinates: [randomCity.longitude, randomCity.latitude]
             },
-            auther: '69fd30515ad0699878018bf0'
+            auther: user._id
         })
         await campground.save();
         

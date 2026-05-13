@@ -55,10 +55,9 @@ module.exports.logout = (req,res,next)=>{
 
 //管理者権限、データ初期化
 const {seedDB} = require("../seeds/seeds.js")
-module.exports.seeds = (req,res,next)=>{
-    console.log(seedDB)
+module.exports.seeds = async (req,res,next)=>{
     if(req.user && req.user.username === "yutaka"){
-        seedDB()
+        await seedDB(req.user)
         req.flash("success", "キャンプ場を初期化しました")
     }else{
         req.flash("error", "管理者権限がありません")
