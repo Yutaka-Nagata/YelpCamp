@@ -1,5 +1,5 @@
 const mongoose = require("mongoose")
-const mbxGeoCoding = require('@mapbox/mapbox-sdk/services/Geocoding');
+const mbxGeoCoding = require('@mapbox/mapbox-sdk/services/geocoding');
 const geoCodingService = mbxGeoCoding({ accessToken: process.env.MAPBOX_TOKEN });
 
 const Campground = require("../Models/campground")
