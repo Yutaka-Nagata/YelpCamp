@@ -3,6 +3,8 @@ if (process.env.NODE_ENV !== "production"){
 }
 require("dotenv").config()
 
+//gitHub_flowの練習
+
 const express = require("express")
 const mongoose = require("mongoose")
 const path = require("path");
