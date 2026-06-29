@@ -7,10 +7,15 @@ const userSchema = new Schema({
         type: String,
         required: true,
         unique: true
+    },
+    role: {
+        type: String,
+        enum: ["user", "admin"],
+        default: "user"
     }
+
 })
 userSchema.plugin(passportLocalMongoose);
-
 //passportLocalMongooseが、勝手にusernameとpasswordをスキーマに追加してくれる！
 
 
