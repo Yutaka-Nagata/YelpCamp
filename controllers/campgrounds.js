@@ -1,6 +1,7 @@
 const mongoose = require("mongoose")
 const mbxGeoCoding = require('@mapbox/mapbox-sdk/services/geocoding');
 const geoCodingService = mbxGeoCoding({ accessToken: process.env.MAPBOX_TOKEN });
+const logger = require('#utils/logger')
 
 const Campground = require("../Models/campground")
 const AppError = require("../Utils/AppError")
@@ -32,7 +33,7 @@ module.exports.createCampground = async (req, res, next)=>{
     await campground.save();
 
     req.flash("success", "新しいキャンプ場を登録しました！")
-    console.log("POST", campground);
+    logger.log("POST", campground);
     res.redirect(`/campgrounds/${campground._id}`)
 }
 
@@ -69,7 +70,7 @@ module.exports.renderDetail = async (req, res, next)=>{
         return res.redirect("/campgrounds")
         
     }
-    // console.log(`${campground.title}のレビュー：`,campground.reviews)
+    // logger.log(`${campground.title}のレビュー：`,campground.reviews)
     res.render("campgrounds/detail", {campground})
 }
 
@@ -83,7 +84,7 @@ module.exports.deleteCampground = async (req, res)=>{
     }
     await Campground.findByIdAndDelete(id);
     
-    console.log("DELETE", campground)
+    logger.log("DELETE", campground)
     req.flash("success", "キャンプ場を削除しました！")
     res.redirect("/campgrounds")
 
@@ -97,7 +98,7 @@ module.exports.patchCampground = async (req, res, next)=>{
     const imgs = req.files.map(file => ({url: file.path, filename: file.filename}))
     campground.Images.push(...imgs)
     campground.save()
-    console.log("deleteImages", req.body.deleteImages)
+    logger.log("deleteImages", req.body.deleteImages)
     if(req.body.deleteImages){
         for(let filename of req.body.deleteImages){
             await cloudinary.uploader.destroy(filename)
@@ -105,7 +106,7 @@ module.exports.patchCampground = async (req, res, next)=>{
         await campground.updateOne({$pull: {Images: {filename: {$in: req.body.deleteImages}}}})
     }
     
-    console.log("PATCH", campground)
+    logger.log("PATCH", campground)
     req.flash("success", "キャンプ場を更新しました！")
     res.redirect(`/campgrounds/${campground._id}`)
 }

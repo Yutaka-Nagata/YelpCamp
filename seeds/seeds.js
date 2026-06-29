@@ -1,21 +1,6 @@
 const mongoose = require("mongoose")
 const Campground = require("../Models/campground")
 
-// const MongoURL = process.env.DB_URL
-// const localURL = 'mongodb://localhost:27017/yelpCamp'
-
-// const URL = MongoURL || localURL
-// mongoose.connect(URL, {
-//     useNewUrlParser: true, 
-//     useUnifiedTopology: true, 
-//     useCreateIndex: true, 
-//     useFindAndModify: false
-// })
-//     .then(() => {
-//         console.log("MongoDBコネクションOK！")
-//     }).catch(()=>{
-//         console.log("コネクションエラー！")
-//     });
 const cities = require("./cities");
 const { descriptors, places } = require("./seedHelpers");
 

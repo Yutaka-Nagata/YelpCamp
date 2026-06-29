@@ -1,7 +1,5 @@
-if (process.env.NODE_ENV !== "production"){
-    
-}
 require("dotenv").config()
+const logger = require('#utils/logger')
 
 //gitHub_flowの練習
 
@@ -40,9 +38,9 @@ mongoose.connect(URL, {
     useFindAndModify: false
 })
     .then(() => {
-        console.log("MongoDBコネクションOK！")
+        logger.log("MongoDBコネクションOK！")
     }).catch((e)=>{
-        console.log("コネクションエラー！", e)
+        logger.log("コネクションエラー！", e)
     });
 
 const app = express()
@@ -68,7 +66,7 @@ const store = MongoStore.create({
     touchAfter: 24 * 3600//一定数秒sessionが変わってない場合、MongoDBにアクセスしない
 })
 store.on("error", e=>{
-    console.log("セッションストアエラー", e)
+    logger.log("セッションストアエラー", e)
 })
 const sessionConfig = {
     store,
@@ -162,13 +160,13 @@ app.use("/campgrounds/:id/reviews", reviewRoute)
 //エラールーティング
 app.use((req, res, next)=>{
     const err = new AppError("ページが見つかりません", 404)
-    console.log("404:", req.originalUrl);
+    logger.log("404:", req.originalUrl);
     next(err);
 })
 
 app.use((err, req, res, next)=>{
     const {status = 500, message = "不明なエラーが発生しました"} = err
-    // console.log(err.stack)
+    // logger.log(err.stack)
     res.status(status).render("error", {message})
 })
 
@@ -176,5 +174,5 @@ app.use((err, req, res, next)=>{
 const port = process.env.PORT || 3000
 
 app.listen(port, (req,res)=>{
-    console.log(`ポート${port}で待機中...`)
+    logger.log(`ポート${port}で待機中...`)
 })

@@ -1,3 +1,5 @@
+const logger = require('#utils/logger')
+
 mapboxgl.accessToken = mapToken
     const map = new mapboxgl.Map({
         container: 'map',
@@ -18,7 +20,7 @@ mapboxgl.accessToken = mapToken
             popupMarkup: `<b><a href="/campgrounds/${campground._id}">${campground.title}</a></b><br>${campground.location}`
         }
     }))
-    console.log(campgrounds)
+    logger.log(campgrounds)
     map.addControl(new mapboxgl.NavigationControl());
 
     map.on('load', () => {
@@ -133,7 +135,7 @@ mapboxgl.accessToken = mapToken
             type: 'click',
             target: { layerId: 'unclustered-point' },
             handler: (e) => {
-                console.log(e)
+                logger.log(e)
                 const coordinates = e.feature.geometry.coordinates.slice();
 
                 new mapboxgl.Popup()

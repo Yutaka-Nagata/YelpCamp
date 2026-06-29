@@ -1,4 +1,5 @@
 const User = require("../Models/user")
+const logger = require('#utils/logger')
 
 module.exports.renderNewForm = (req,res)=>{
     res.render("users/register")
@@ -33,7 +34,7 @@ module.exports.renderLoginForm = (req,res)=>{
 
 module.exports.login = (req,res)=>{
         req.flash("success", "おかえりなさい！")
-        console.log("")
+        logger.log("")
         const redirectUrl = res.locals.returnTo || "/campgrounds";
         delete req.session.returnTo;
         res.redirect(redirectUrl)

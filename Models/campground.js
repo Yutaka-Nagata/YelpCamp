@@ -1,6 +1,7 @@
 const mongoose = require("mongoose")
 const Schema = mongoose.Schema;
 const Review = require("./review")
+const logger = require('#utils/logger')
 
 // 'https://res.cloudinary.com/da21pquye/image/upload/v1778313344/YelpCamp/sgtpxdwqd01tuu1elh4z.jpg'
 
@@ -45,7 +46,7 @@ const campgroundSchema = new Schema({
 campgroundSchema.post("findOneAndDelete", async function(campground){
     if(campground.reviews.length){
         const res = await Review.deleteMany({_id: {$in: campground.reviews}})
-        console.log("mongooseのミドルウェア発動", res)
+        logger.log("mongooseのミドルウェア発動", res)
     }
 })
 

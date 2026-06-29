@@ -2,11 +2,12 @@ const AppError = require("./Utils/AppError")
 const {campgroundSchema, reviewSchema} = require("./Utils/joiSchemas")
 const Campground = require("./Models/campground")
 const Review = require("./Models/review")
+const logger = require('#utils/logger')
 
 module.exports.check_isLoggedIn = (req,res,next)=>{
     if(!req.isAuthenticated()){
         //元々リクエストした場所を保存しておく
-        // console.log("originalURL",req.originalUrl)
+        // logger.log("originalURL",req.originalUrl)
         req.session.returnTo = req.originalUrl
         req.flash("error", "ログインしてください")
         return res.redirect("/login")
@@ -15,7 +16,7 @@ module.exports.check_isLoggedIn = (req,res,next)=>{
 }
 
 module.exports.storeReturnTo = (req,res,next)=>{
-    // console.log(req.session.returnTo)
+    // logger.log(req.session.returnTo)
     if(req.session.returnTo){
         res.locals.returnTo = req.session.returnTo;
     }
@@ -50,7 +51,7 @@ module.exports.check_CampgroundValidate = (req, res, next) => {
 
 module.exports.check_ReviewValidate = (req, res, next) => {
     const result = reviewSchema.validate(req.body)
-    // console.log(result)
+    // logger.log(result)
     if(result.error) throw new AppError(result.error, 501)
     return next();
 }
